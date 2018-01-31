@@ -1,0 +1,65 @@
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="sieve-number">
+        
+    <template>
+
+        <style>
+/*             .highlight {
+                 background-color: green;
+            }    */
+            
+            paper-button {
+                    margin-top: 10px;
+                    margin-left: 10px;
+                    height: 40px;
+                    width: 50px;
+                    background-color: green;
+            }  
+        </style>
+
+        <paper-button on-click="highlightEnabled" raised>{{number}}</paper-button>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'sieve-number',
+            properties: {
+
+                number: {
+                    type: String
+                },
+                highlight: {
+                    type: String,
+                    notify: true
+                    
+                },
+               /*  highlightClass: {
+                    type: String,
+                    value: "",
+                    computed: "_computeHighlightClass(highlight)",
+                    notify: true,
+                } */
+            },
+/*             _computeHighlightClass: function(highlight) {
+                if (highlight == "true"){
+                    return "highlight";
+                }
+
+                return "";
+            }, */
+            highlightEnabled: function() {
+
+                if (this.highlight == "true")
+                    this.set("highlight", "false");
+                else
+                    this.set("highlight", "true");
+
+                
+            }
+
+        })
+
+    </script>
+</dom-module>
+
