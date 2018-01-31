@@ -1,0 +1,181 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../sieve-number/sieve-number.html">
+
+
+<dom-module id="sieve-main">
+    
+    
+    <template>
+        
+        <style>
+            div {
+                margin-top: 50px;
+            }
+             
+            paper-input {
+                float: left;
+                max-width: 150px;
+            } 
+
+            paper-button {
+                    margin-top: 10px;
+                    margin-left: 10px;
+                    height: 40px;
+                    width: 50px;
+            }   
+        </style>
+
+        <div>
+            <paper-input autofocus always-float-label label="Value" value="{{number}}"></paper-input>
+            <paper-button raised colored tabindex="0" on-click="updateNumbers">Submit</paper-button>
+            <paper-button raised colored tabindex="0" on-click="sieve">Sieve</paper-button>
+        </div>
+
+        <div>
+            <template id="nums" is="dom-repeat" items="{{numberList}}">
+                <sieve-number id="[[item.id]]" highlight="true" number="[[item.value]]"></sieve-number>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: "sieve-main",
+            properties: {
+                number: {
+                    type: String,
+                    value: 50,
+                    notify: true
+                },
+                numberList: {
+                    type: Array,
+                    value: [],
+                    notify: true
+                }
+            },
+            ready: function() {
+                for (var i = 1; i <= this.number; i++){
+                    this.numberList.push({value: i, "id": "s"+i});
+                }
+                
+            },
+            sieve: function() {
+                //console.log(Polymer.dom(this.root).querySelector('#s1'));
+                var self = this;
+                var delay = 250;
+
+                // automatically set number 1 to false, since 1 isn't a prime number
+                var element1 = Polymer.dom(self.root).querySelector('#s1');
+
+                if (element1.highlight == "true") {
+                    var elementToDisable = Polymer.dom(self.root).querySelector('#s1').animate([
+                                    { transform: 'scale(1)', opacity: 1 },
+                                    { transform: 'scale(.5)', opacity: .5 },
+                                    { transform: 'scale(.3)', opacity: .3 },
+                                ], 
+                                {
+                                    duration: 700,
+                                    delay: delay,
+                                    easing: 'ease-in-out',
+                                    direction: 'normal',
+                                    fill: 'forwards'
+                                });
+
+                    delay += 250;
+                    element1.set("highlight", "false");
+                }
+
+                for (var i = 2; i < Math.sqrt(self.number); i++){
+
+                    var selectId = "#s" + i;
+                    var el = Polymer.dom(self.root).querySelector(selectId);
+
+                    // if numberList[i] == highlighted
+                    if (el.highlight == "true"){
+                        //el.set("highlight", "false")
+
+                        // want to iterate through all multiples of i and disable them
+                        var j = Math.pow(i, 2);
+                        while (j <= self.number){
+                            var k = 1;
+
+                            var elementId = "#s" + j;
+                            var element = Polymer.dom(self.root).querySelector(elementId);
+
+                            if (element.highlight == "true"){
+                                var elementToDisable = element.animate([
+                                    { transform: 'scale(1)', opacity: 1 },
+                                    { transform: 'scale(.5)', opacity: .5 },
+                                    { transform: 'scale(.3)', opacity: .3 },
+                                ], 
+                                {
+                                    duration: 700,
+                                    delay: delay,
+                                    easing: 'ease-in-out',
+                                    direction: 'normal',
+                                    fill: 'forwards'
+                                });
+
+                                delay += 250;
+
+                                element.set("highlight", "false");
+                            }
+
+                            //elementToDisable.set("highlight", "false");
+
+                            // iterate to the next multiple of i
+                            j = j + k*i;
+
+                        }
+                    }
+
+                }
+            },
+            updateNumbers: function() {
+
+                for (var i = 1; i <= this.number; i++){
+                    
+                    var elementId = "#s" + i;
+                    var element = Polymer.dom(this.root).querySelector(elementId);
+
+                    if (element != null) {
+                        var elementToDisable = element.animate([
+                                    { transform: 'scale(.3)', opacity: .3 },
+                                    { transform: 'scale(.5)', opacity: .5 },
+                                    { transform: 'scale(1)', opacity: 1 },
+                                ], 
+                                {
+                                    duration: 10,
+                                    delay: 10,
+                                    easing: 'ease-in-out',
+                                    direction: 'normal',
+                                    fill: 'forwards'
+                                });
+
+                                element.set("highlight", "true");
+                    }
+                }
+
+                this.numberList = [];
+
+                for (var i = 1; i <= this.number; i++){
+                    //var selectId = "#s" + i;
+                    this.numberList.push({value: i, "id": "s"+i});
+                    //Polymer.dom(this.root).querySelector(selectId).set("highlight", "true");
+                }
+
+                //callback();
+            },
+            updateHighlight: function() {
+                for (var i = 1; i <= this.number; i++){
+                    var selectId = "#s" + i;
+                    Polymer.dom(this.root).querySelector(selectId).set("highlight", "true");
+                }
+            }
+        });
+
+    </script>
+</dom-module>
