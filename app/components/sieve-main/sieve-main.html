@@ -1,6 +1,8 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="../sieve-number/sieve-number.html">
 
@@ -13,6 +15,8 @@
         <style>
             div {
                 margin-top: 50px;
+                margin-left: 50px;
+                margin-right: 50px;
             }
              
             paper-input {
@@ -26,7 +30,12 @@
                     height: 40px;
                     width: 50px;
             }   
+
+            
+            
         </style>
+
+        
 
         <div>
             <paper-input autofocus always-float-label label="Value" value="{{number}}"></paper-input>
@@ -65,7 +74,7 @@
             sieve: function() {
                 //console.log(Polymer.dom(this.root).querySelector('#s1'));
                 var self = this;
-                var delay = 250;
+                var delay = .125;
 
                 // automatically set number 1 to false, since 1 isn't a prime number
                 var element1 = Polymer.dom(self.root).querySelector('#s1');
@@ -84,7 +93,7 @@
                                     fill: 'forwards'
                                 });
 
-                    delay += 250;
+                    delay += 125;
                     element1.set("highlight", "false");
                 }
 
@@ -119,7 +128,7 @@
                                     fill: 'forwards'
                                 });
 
-                                delay += 250;
+                                delay += 125;
 
                                 element.set("highlight", "false");
                             }

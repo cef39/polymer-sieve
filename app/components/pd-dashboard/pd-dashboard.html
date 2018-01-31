@@ -1,8 +1,56 @@
 <link rel="import" href="../sieve-main/sieve-main.html">
 
+<link rel="import" href="../../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+
+<link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+
+
 <dom-module id="pd-dashboard">
     <template>
-        <sieve-main></sieve-main>
+        <style>
+            app-header-layout {
+                background-color: rgba(221, 221, 221, 0.329);
+            }
+        
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
+            }
+
+            app-header {
+                background-color: var(--paper-blue-700);
+                color: #fff;
+                @apply --app-header-shadow;
+            }
+
+        </style>
+
+        <app-drawer-layout>
+
+            <app-drawer slot="drawer">
+                <app-toolbar>
+                    Getting Started
+                </app-toolbar>
+            </app-drawer>
+
+            <app-header-layout>
+
+                <app-header slot="header" reveals effects="waterfall">
+                        <app-toolbar>
+                            <div main-title>Sieve of Eratosthenes</div>
+                        </app-toolbar>
+                </app-header>
+
+                <sieve-main></sieve-main>
+                
+            </app-header-layout>
+
+            
+
+        </app-drawer-layout>
+        
     </template>
 
 
